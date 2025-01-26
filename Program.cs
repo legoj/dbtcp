@@ -42,33 +42,6 @@ namespace jstools
             Console.WriteLine("Usage:");
             Console.WriteLine("\t" + _APPNAME + " [pathToXMLConfigurationFile]");            
         }
-        static void Main2(string[] args)
-        {
-
-            string SQL = "select * from Collection_Rules";
-            string TBL = "CMCollectionRules";
-
-            string cConStr = "Server=rkda0137\\SQLEXP;Database=JGDB;Trusted_Connection=True";
-            string sConStr = "Server=PWGSDSPSSCCM7;Database=CM_JPP;Trusted_Connection=True";
-
-            DBExport db = new DBExport(sConStr);
-            SqlCommand sqc = new SqlCommand(SQL, db.GetConnection());
-            DataTable dt = db.GetTableData(sqc);
-            dt.TableName = TBL;
-
-            //DBImport ds = new DBImport(cConStr);
-            //if (ds.DBTableExists(TBL)) { ds.DBTableTruncate(TBL); }
-            //else
-            //{
-                DataTable sc = db.GetTableSchema(sqc);
-                string s = db.GenerateTableCreateSQL(TBL, sc, null);
-            //    ds.DBExecNonQuery(s);
-            //}
-
-            db.CloseConnection();
-            //ds.DBBulkInsert(dt);
-            //ds.CloseConnection();
-        }
     }
     internal class DBTCopy
     {
