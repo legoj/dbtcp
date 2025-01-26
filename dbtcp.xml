@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<dbtcp>
+	<db id="jgdb">Server=rkda0137\SQLEXP;Database=JGDB;Trusted_Connection=True</db>
+	<db id="cmdb">Server=PWGSDSPSSCCM7;Database=CM_JPP;Trusted_Connection=True</db>
+	<table id="cmb" src="BoundaryEx" dst="CMBoundary">
+		<where>Name LIKE 'JPP%'</where>
+	</table>
+	<table id="cbg" src="BoundaryGroup" dst="CMBoundaryGroup">
+		<where>Name LIKE 'JPP%'</where>
+	</table>
+	<table id="cus" src="Users" dst="CMUsers">
+		<where>Domain='R6-CORE'</where>
+	</table>
+	<table id="crs" src="v_R_System" dst="CMDevices">
+		<where>Resource_Domain_OR_Workgr0='R6-CORE'</where>
+	</table>
+	<table id="vos" src="v_GS_OPERATING_SYSTEM" dst="CMIOS"/>
+	<table id="vcs" src="v_GS_COMPUTER_SYSTEM" dst="CMIComputer">
+		<select>
+			<f id="ResourceID"/>
+			<f id="TimeStamp"/>
+			<f id="CurrentTimeZone0"/>
+			<f id="Description0"/>
+			<f id="Domain0"/>
+			<f id="DomainRole0"/>
+			<f id="Manufacturer0"/>
+			<f id="Model0"/>
+			<f id="Name0"/>
+			<f id="NumberOfProcessors0"/>
+			<f id="Roles0"/>
+			<f id="Status0"/>
+			<f id="SystemType0"/>
+			<f id="TotalPhysicalMemory0"/>
+			<f id="UserName0"/>
+		</select>
+	</table>
+	<table id="vnc" src="v_GS_NETWORK_ADAPTER_CONFIGURATION" dst="CMINetConfig">
+		<select>
+			<f id="ResourceID" />
+			<f id="TimeStamp" />
+			<f id="RevisionID" />
+			<f id="TimeStamp" />
+			<f id="DefaultIPGateway0" />
+			<f id="DHCPEnabled0" />
+			<f id="DHCPLeaseExpires0" />
+			<f id="DHCPLeaseObtained0" />
+			<f id="DHCPServer0" />
+			<f id="DNSHostName0" />
+			<f id="Index0" />
+			<f id="IPAddress0" />
+			<f id="IPEnabled0" />
+			<f id="IPSubnet0" />
+			<f id="MACAddress0" />
+			<f id="ServiceName0" />
+		</select>
+		<where>DefaultIPGateway0 IS NOT NULL</where>
+	</table>
+	<table id="vsv" src="v_GS_SERVICE" dst="CMIService"/>
+	<table id="vgs" src="v_GS_SYSTEM" dst="CMISystem"/>
+	<table id="vwu" src="v_GS_WindowsUpdate10" dst="CMIWinUpdate"/>
+	<table id="vqf" src="v_GS_QUICK_FIX_ENGINEERING" dst="CMIQFE"/>
+
+	<task id="CMTableExport" desc="Export the SCCM table data" src="cmdb" dst="jgdb">
+		<table id="vsv"/>
+	</task>
+</dbtcp>
